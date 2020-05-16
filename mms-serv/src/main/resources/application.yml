@@ -1,0 +1,19 @@
+server:
+  port: 8088
+spring:
+  freemarker:
+    suffix: .ftl
+    cache: false
+
+  h2:
+    console:
+      settings:
+        web-allow-others: true
+      path: /api/mms/h2-console
+      enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false

@@ -1,0 +1,54 @@
+<html>
+<head>
+    <link href="/mms/static/weui.css" rel="stylesheet"/>
+    <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js" ></script>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="weui-form">
+    <div class="weui-form__text-area">
+        <h2 class="weui-form__title">登录页</h2>
+        <div class="weui-form__desc">账号密码登录</div>
+    </div>
+    <div class="weui-form__control-area">
+        <div class="weui-cells__group weui-cells__group_form">
+            <div class="weui-cells__title">登录</div>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell weui-cell_active">
+                    <div class="weui-cell__hd"><label class="weui-label">昵称</label></div>
+                    <div class="weui-cell__bd">
+                        <input id="nick_name" class="weui-input" placeholder="昵称"/>
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_active">
+                    <div class="weui-cell__hd"><label class="weui-label">密码</label></div>
+                    <div class="weui-cell__bd">
+                        <input id="pwd" class="weui-input" placeholder="密码"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="weui-form__tips-area">
+        <p class="weui-form__tips">
+            居中对齐
+        </p>
+    </div>
+    <div class="weui-form__opr-area">
+        <a class="weui-btn weui-btn_primary weui-btn" href="javascript:" id="login">确定</a>
+    </div>
+    <div class="weui-form__tips-area">
+        <p class="weui-form__tips">
+            居中对齐
+        </p>
+    </div>
+</div>
+<script src = "/mms/static/js/logco.js"></script>
+<script>
+    $('#login').click(function () {
+        log_lib.login($('#nick_name').val(), $('#pwd').val());
+    });
+</script>
+</body>
+</html>

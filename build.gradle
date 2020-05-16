@@ -1,0 +1,136 @@
+buildscript {
+    ext {
+        springBootVersion = '2.2.6.RELEASE'
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+    }
+}
+
+plugins {
+    id 'java'
+    id('io.ebean') version '11.39.1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+}
+
+group 'com.halo'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+ext {
+    springBootVersion = '2.2.6.RELEASE'
+    dubboVersion = '2.6.2'
+    zookeeperVersion = '3.5.5'
+    curatorVersion = '4.2.0'
+    wxPusherSdkVersion = '2.1.2'
+    snakeYamlVersion = '1.25'
+    h2Version =  "1.4.196"
+    ebeanVersion = "11.39.1"
+    mysqlVersion = "8.0.16"
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+allprojects {
+    version '1.0.0'
+
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    apply plugin: 'java-library'
+
+    repositories {
+        maven {
+            url "https://maven.aliyun.com/nexus/content/groups/public"
+        }
+        mavenCentral()
+        jcenter()
+    }
+
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.java
+            }
+        }
+
+        repositories {
+            maven {
+                url = "D:/open_repos/mvns"
+            }
+        }
+    }
+
+    configurations {
+
+    }
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+subprojects {
+    version '1.0.0'
+
+    dependencies {
+        implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
+        implementation("org.projectlombok:lombok:1.18.10")
+        annotationProcessor("org.projectlombok:lombok:1.18.10")
+    }
+
+    configurations {
+
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+}
+
+project(":mms-out") {
+    version '1.0.2'
+    group "com.halo"
+
+    dependencies {
+
+    }
+}
+
+project(":mms-repo") {
+
+    version '1.0.0'
+
+    dependencies {
+        implementation "org.springframework.boot:spring-boot-starter:$springBootVersion"
+        implementation "org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion"
+        implementation "com.h2database:h2:$h2Version"
+        implementation "io.ebean:ebean:$ebeanVersion"
+        implementation "io.ebean:ebean-querybean:$ebeanVersion"
+        implementation "mysql:mysql-connector-java:$mysqlVersion"
+    }
+}
+
+project(":mms-serv") {
+
+    apply plugin: "org.springframework.boot"
+
+    dependencies {
+        implementation(project(":mms-out"))
+        implementation(project(":mms-repo"))
+        implementation "org.springframework.boot:spring-boot-starter-freemarker:$springBootVersion"
+        implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+        implementation "com.alibaba:dubbo:$dubboVersion"
+        implementation "org.apache.zookeeper:zookeeper:$zookeeperVersion"
+        implementation "org.apache.curator:curator-framework:$curatorVersion"
+        implementation "com.zjiecode:wxpusher-java-sdk:$wxPusherSdkVersion"
+        implementation  "org.yaml:snakeyaml:$snakeYamlVersion"
+        implementation "io.ebean:ebean:$ebeanVersion"
+
+    }
+}

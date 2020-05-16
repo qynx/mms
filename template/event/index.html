@@ -1,0 +1,140 @@
+<html5>
+<head>
+    <link href="/mms/static/weui.css" rel="stylesheet"/>
+    <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js" ></script>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+
+<div class="weui-form">
+
+    <div class="weui-form__text-area">
+        <h2 class="weui-form__title">事件确认</h2>
+    </div>
+
+
+    <div class="weui-form__control-area">
+        <div class="weui-cells__group weui-cells__group_form">
+            <div class="weui-cells__title">表单组标题</div>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell weui-cell_active">
+
+                        <div class="weui-cell__hd">
+                            <label for="birth" class="weui-label">日期</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" id="birth" type="text" placeholder="请选择事件日期" readonly>
+                        </div>
+                </div>
+
+                <div class="weui-cell weui-cell_active">
+                    <div class="weui-cell__hd"><label class="weui-label">tag</label></div>
+                    <div class="weui-cell__bd">
+                        <input id="tag_input" value="sleep" class="weui-input" placeholder="enter the tag">
+                    </div>
+                </div>
+
+                <div class="weui-cell weui-cell_active">
+                    <div class="weui-cell__hd"><label class="weui-label">时机</label></div>
+                    <div class="weui-cell__bd">
+
+                        <label>早</label>
+                        <input type="radio" class="" name="radio1" id="start_">
+                        <label>晚</label>
+                        <input type="radio" class="" name="radio1" id="end_">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-form__opr-area">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">确定</a>
+    </div>
+
+    <div class="weui-form__tips-area">
+        <p class="weui-form__tips" id="result_tips">
+            表单页提示，居中对齐
+        </p>
+    </div>
+
+    <div class="js_dialog" id="succLog" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog weui-skin_android">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">请求成功</strong></div>
+            <div class="weui-dialog__bd">
+                打卡成功
+            </div>
+            <div class="weui-dialog__ft">
+                <a id = "exit_log" href="javascript:" class="weui-dialog__btn weui-dialog__btn_default">退出</a>
+                <a id = "exit_log1" href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary">关闭</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/mms/static/js/logco.js"></script>
+<script>
+    $('#birth').on('click', function () {
+        let defaultDate = [];
+        defaultDate.push(new Date().getFullYear());
+        defaultDate.push(new Date().getMonth() + 1);
+        defaultDate.push(new Date().getDate());
+        weui.datePicker({
+            start: 2020,
+            end: new Date().getFullYear(),
+            defaultValue: defaultDate,
+            onConfirm: function (result) {
+                if (result[1] < 10){
+                    result[1] = '0'+result[1];
+                }
+                if (result[2] < 10){
+                    result[2] = '0'+result[2];
+                }
+                $('#birth').val(result.join('-'));
+            }
+        });
+    });
+
+    $('#showTooltips').on("click", function () {
+
+        let start = null;
+        let end = null;
+
+        if ($('#start_')[0].checked == true) {
+            start = new Date().getTime();
+        } else {
+            end = new Date().getTime();
+        }
+
+        $.ajax({url:"/api/mms/event/add",
+                method: "POST",
+                contentType: "application/json",
+                headers: {
+                    'mms-auth-token': localStorage.getItem("auth_token")
+                },
+                data: JSON.stringify({
+                    "tag": $('#tag_input').val(),
+                    "day": $('#birth').val(),
+                    "start": start,
+                    "end": end,
+                    "nickName": "test"
+                }),
+                success: function(result) {
+                       $('#succLog').fadeIn(200);
+                }
+        });
+    });
+
+    $('#exit_log1').on("click", function () {
+        $('#succLog').fadeOut(200);
+    });
+</script>
+</body>
+</html5>

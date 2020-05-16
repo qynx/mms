@@ -1,0 +1,35 @@
+package com.halo.mms.serv.controller;
+
+import com.halo.mms.serv.request.UserAuthRequest;
+import com.halo.mms.serv.service.api.UserInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+
+@Controller
+@RequestMapping("/api/mms")
+public class UserInfoController {
+
+    @Autowired
+    private UserInfoService userInfoService;
+
+    @GetMapping("/user/get")
+    public Object getUser(Model model) {
+        model.addAttribute("qrcodeUrl", userInfoService.generateQrCode());
+        return "user/index";
+    }
+
+    @PostMapping("/user/auth")
+    @ResponseBody
+    public Object authUser(@RequestBody UserAuthRequest userAuthRequest) {
+        return userInfoService.authUser(userAuthRequest);
+    }
+
+
+}
