@@ -13,7 +13,7 @@ public class DayEventRepository {
             + " duplicate key update start = IF(values(start) is not null, values(start), start), "
             + "end = IF(values(end) is not null, values(end), end)";
 
-    @Autowired
+    //@Autowired
     private EbeanServer ebeanServer;
 
      public Object updateByUK(DayEventDO dayEventDO) {

@@ -1,13 +1,18 @@
 package com.halo.mms.serv.service;
 
-import com.halo.mms.serv.exception.BadRequestException;
+import com.halo.mms.repo.model.UserContactInfoDO;
+import com.halo.mms.serv.exception.LoginInvalidException;
 import com.halo.mms.serv.service.api.UserAuthService;
-import com.halo.mms.serv.store.MemoryCache;
+import com.halo.mms.serv.store.AbstractCache;
+import com.halo.mms.serv.store.CacheFactory;
 import com.halo.mms.serv.store.StoreData;
+import com.halo.mms.serv.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import javax.annotation.Resource;
 import java.util.UUID;
 
 @Slf4j
@@ -16,21 +21,32 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     private static final String TOKEN_STORE_PREFIX = "token_";
 
+    @Resource
+    private Environment environment;
+
+    private static AbstractCache store = CacheFactory.buildFileCache("token");
+
     @Override
-    public String generateToken(String uid) {
+    public String generateToken(UserContactInfoDO userContactInfoDO) {
         String token = UUID.randomUUID().toString().replace("-", "");
 
-        MemoryCache.put(buildTokenKey(token), StoreData.builder().value(uid).build());
+        store.putData(buildTokenKey(token),
+            StoreData.builder().value(JsonUtil.toJson(userContactInfoDO))
+                .invalidTimeInMs(System.currentTimeMillis() + ttl()).build());
 
         return token;
     }
 
-    @Override
-    public String getUidByToken(String token) {
+    private long ttl() {
+        return Long.parseLong(environment.getProperty("mms.token.ttl"));
+    }
 
-        return MemoryCache.get(buildTokenKey(token))
-                        .map(StoreData::getValue)
-                        .orElseThrow(() -> new BadRequestException(400, "invalid token"));
+    @Override
+    public UserContactInfoDO getUidByToken(String token) {
+        return store.getData(buildTokenKey(token))
+            .map(StoreData::getValue)
+            .map(v -> JsonUtil.fromJson(v, UserContactInfoDO.class))
+            .orElseThrow(() -> new LoginInvalidException(401, "invalid token"));
     }
 
     @Override

@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 @Configuration
 public class H2DataSourceConfig {
 
-    @Bean
+    //@Bean
     public DataSource dataSource() {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("org.h2.Driver");

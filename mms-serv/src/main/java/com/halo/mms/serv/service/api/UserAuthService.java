@@ -1,17 +1,19 @@
 package com.halo.mms.serv.service.api;
 
+import com.halo.mms.repo.model.UserContactInfoDO;
+
 public interface UserAuthService {
 
     /**
      * for login user issue a unique token
      */
-    String generateToken(String uid);
+    String generateToken(UserContactInfoDO userContactInfoDO);
 
     /**
      * @param token the issued token
      * @return token map user
      */
-    String getUidByToken(String token);
+    UserContactInfoDO getUidByToken(String token);
 
     /**
      *

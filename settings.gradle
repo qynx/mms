@@ -2,4 +2,5 @@ rootProject.name = 'mms'
 include 'mms-out'
 include 'mms-serv'
 include 'mms-repo'
+include 'mms-common'
 

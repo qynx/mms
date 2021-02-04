@@ -1,5 +1,6 @@
 package com.halo.mms.serv.core;
 
+import com.halo.mms.repo.model.UserContactInfoDO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,5 +8,5 @@ import lombok.Setter;
 @Setter
 public class ContextBO {
 
-    private String userUuid;
+    private UserContactInfoDO userInfo;
 }

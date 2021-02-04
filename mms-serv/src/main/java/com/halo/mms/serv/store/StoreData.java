@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class StoreData {
 
     private String value;
+    private Long invalidTimeInMs;
 }

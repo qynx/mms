@@ -20,17 +20,27 @@ public class WxPushServiceImpl extends AbstractWxPushService implements WxPushSe
     @Override
     public BaseResult pushByUidList(WxPushRequest request) {
 
-        Consumer<MessageDTO> dealOneMessage = new Consumer<MessageDTO>() {
-            @Override
-            public void accept(MessageDTO messageDTO) {
-                Message message = getMessage(messageDTO);
-                sendMessage(message);
-            }
+        Consumer<MessageDTO> dealOneMessage = messageDTO -> {
+            Message message = getMessage(messageDTO);
+            sendMessage(message);
         };
 
         request.getMessages().forEach(dealOneMessage);
 
         return BaseResult.getSucc();
+    }
+
+    @Override
+    public void push(String wxPusherUid, String msg) {
+        Message message = getMessage(new MessageDTO().setContent(msg).setUid(wxPusherUid));
+        sendMessage(message);
+    }
+
+    @Override
+    public void push(String title, String content, String wxPusherId) {
+        Message message = getMessage(new MessageDTO().setContent(content).setSummary(title)
+        .setUid(wxPusherId));
+        sendMessage(message);
     }
 
     protected PushConfig getPushConfig() {

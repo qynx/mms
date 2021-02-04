@@ -1,31 +1,34 @@
 package com.halo.mms.repo.model;
 
-import io.ebean.Model;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.Date;
+
 
 @Data
-@Entity
-@Table(name = "user_contact_info")
-public class UserContactInfoDO extends Model {
+@TableName(value = "user_contact_info")
+public class UserContactInfoDO {
 
-    @Id
+    @TableId
     private Long id;
 
-    @Column(name = "nick_name", length = 50)
     private String nickName;
 
-    @Column(name = "auth_info", length = 32)
     private String authInfo;
 
-    @Column(name = "uuid", length = 128)
     private String uuid;
 
-    @Column(name = "email", length = 128)
     private String email;
+
+    @TableLogic
+    private Boolean isDeleted;
+
+    private Date createdAt;
+
+    private Date updatedAt;
+
+    private String wxPusherUid;
 }

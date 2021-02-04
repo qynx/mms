@@ -1,12 +1,8 @@
 package com.halo.mms.serv.exception;
 
-public class BadRequestException extends BusinessException {
-
-    public BadRequestException() {
-        super();
-    }
+public class BadRequestException extends AbstractMmsException {
 
     public BadRequestException(Integer code, String msg) {
-        super(code, msg);
+        super(code, msg, 400);
     }
 }

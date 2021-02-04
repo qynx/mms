@@ -20,7 +20,7 @@ public class EventController {
     @PostMapping("/event/add")
     @ResponseBody
     public Object addEvent(@RequestBody AddEventRequest request) {
-        request.setNickName(SelContextHolder.getContext().getUserUuid());
+        request.setNickName(SelContextHolder.getContext().getUserInfo().getNickName());
         return eventDayService.addEvent(request);
     }
 

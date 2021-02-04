@@ -17,3 +17,7 @@ spring:
       ddl-auto: update
     show-sql: false
     open-in-view: false
+mms:
+  secret: false
+  token:
+    ttl: 10000

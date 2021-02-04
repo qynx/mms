@@ -1,5 +1,6 @@
 package com.halo.mms.serv.service;
 
+import cn.hutool.crypto.digest.DigestUtil;
 import com.halo.mms.out.result.BaseResult;
 import com.halo.mms.repo.model.UserContactInfoDO;
 import com.halo.mms.repo.repository.UserContactInfoRepository;
@@ -41,13 +42,15 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public BaseResult<UserAuthResult> authUser(UserAuthRequest request) {
         Optional<UserContactInfoDO> optionalUserContactInfoDO =
-                userContactInfoRepository.findByNickName(request.getNickName());
+            userContactInfoRepository.findByNickName(request.getNickName());
         UserContactInfoDO userContactInfoDO =
-                optionalUserContactInfoDO.orElseThrow(() -> new BadRequestException(400, "无法获取用户信息"));
+            optionalUserContactInfoDO.orElseThrow(() -> new BadRequestException(403, "认证失败"));
 
-        Assert.isTrue(userAuthService.auth(userContactInfoDO.getAuthInfo(), request.getPwd()), "pwd error");
+        String pwdMd5 = DigestUtil.md5Hex(request.getPwd() + ":caibudao");
 
-        String token = userAuthService.generateToken(userContactInfoDO.getNickName());
+        Assert.isTrue(userAuthService.auth(userContactInfoDO.getAuthInfo(), pwdMd5), "认证失败");
+
+        String token = userAuthService.generateToken(userContactInfoDO);
 
         return BaseResult.getSucc(UserAuthResult.builder().token(token).build());
     }
@@ -61,5 +64,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 
         Result<CreateQrcodeResp> qrCode = WxPusher.createAppTempQrcode(createQrcodeReq);
         return Optional.ofNullable(qrCode).filter(Result::isSuccess).map(Result::getData).map(CreateQrcodeResp::getUrl);
+    }
+
+    @Override
+    public UserContactInfoDO queryUser(String uid) {
+        return userContactInfoRepository.findByUid(uid).orElse(null);
     }
 }

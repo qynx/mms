@@ -11,8 +11,8 @@ import javax.persistence.UniqueConstraint;
 import java.util.Date;
 
 @Data
-@Entity
-@Table(name = "day_event", uniqueConstraints = {@UniqueConstraint(columnNames={"day", "tag", "nick_name"})})
+//@Entity
+//@Table(name = "day_event", uniqueConstraints = {@UniqueConstraint(columnNames={"day", "tag", "nick_name"})})
 public class DayEventDO extends Model {
 
     @Id

@@ -16,6 +16,7 @@ public abstract class AbstractWxPushService {
         message.setUid(messageDTO.getUid());
         message.setUrl(messageDTO.getUrl());
         message.setContent(messageDTO.getContent());
+        message.setSummary(messageDTO.getSummary());
         message.setContentType(Message.CONTENT_TYPE_TEXT);
         message.setAppToken(getPushConfig().getPushProperties().getAppToken());
         return message;
