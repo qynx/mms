@@ -31,7 +31,7 @@ ext {
     snakeYamlVersion = '1.25'
     h2Version =  "1.4.196"
     ebeanVersion = "11.39.1"
-    mysqlVersion = "8.0.16"
+    mysqlVersion = "5.1.47"
     mybatisPlusVersion = '3.4.2'
     rocketMqVersion = '4.8.0'
     hutoolVersion = '5.5.7'
