@@ -13,6 +13,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import io.ebean.EbeanServer;
 import io.ebean.EbeanServerFactory;
 import io.ebean.config.ServerConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.context.annotation.Bean;
@@ -25,11 +26,13 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.io.IOException;
 
+@Slf4j
 @Configuration
 public class MysqlDataSourceConfig {
 
     @Bean
     public DataSource mysqlDataSource(RepoConfig repoConfig) {
+        log.info("MysqlDataSourceConfig {} {}", repoConfig.getSqlUserName(), repoConfig.getSqlPwd());
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/springboot?useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true");
