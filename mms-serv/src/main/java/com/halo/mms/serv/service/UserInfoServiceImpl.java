@@ -44,11 +44,11 @@ public class UserInfoServiceImpl implements UserInfoService {
         Optional<UserContactInfoDO> optionalUserContactInfoDO =
             userContactInfoRepository.findByNickName(request.getNickName());
         UserContactInfoDO userContactInfoDO =
-            optionalUserContactInfoDO.orElseThrow(() -> new BadRequestException(403, "认证失败"));
+            optionalUserContactInfoDO.orElseThrow(() -> new BadRequestException(403, "认证失败, 请检查输入的账号或密码"));
 
         String pwdMd5 = DigestUtil.md5Hex(request.getPwd() + ":caibudao");
 
-        Assert.isTrue(userAuthService.auth(userContactInfoDO.getAuthInfo(), pwdMd5), "认证失败");
+        Assert.isTrue(userAuthService.auth(userContactInfoDO.getAuthInfo(), pwdMd5), "认证失败,请检查输入的账号或密码");
 
         String token = userAuthService.generateToken(userContactInfoDO);
 

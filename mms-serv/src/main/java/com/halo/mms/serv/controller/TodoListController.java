@@ -36,4 +36,11 @@ public class TodoListController {
     public Object list(@RequestBody TodoListQuery todoListQuery) {
         return BaseResult.getSucc(todoListService.list(todoListQuery));
     }
+
+    @RequestMapping(value = "/todo/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Object deleteTodo(@RequestBody ToDoListDO toDoListDO) {
+        todoListService.mmsDelete(toDoListDO.getId());
+        return BaseResult.getSucc(null);
+    }
 }

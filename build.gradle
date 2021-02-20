@@ -17,7 +17,7 @@ java {
 }
 
 group 'com.halo'
-version '1.0-SNAPSHOT'
+version '1.0.1'
 
 sourceCompatibility = 1.8
 
@@ -42,7 +42,7 @@ dependencies {
 }
 
 allprojects {
-    version '1.0.0'
+    version '1.0.1'
 
     apply plugin: 'java'
     apply plugin: 'maven-publish'

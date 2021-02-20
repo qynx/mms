@@ -9,4 +9,6 @@ public class TodoListQuery implements Serializable {
 
     private Integer page;
     private Integer size;
+
+    private String doingDay;
 }
