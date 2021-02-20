@@ -20,4 +20,4 @@ spring:
 mms:
   secret: false
   token:
-    ttl: 10000
+    ttl: 1000000
