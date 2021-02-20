@@ -26,7 +26,7 @@ public class MysqlDataSourceConfig {
         log.info("MysqlDataSourceConfig {} {}", repoConfig.getSqlUserName(), repoConfig.getSqlPwd());
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/springboot?useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true");
+        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/springboot?useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8");
         dataSource.setUsername(repoConfig.getSqlUserName());
         dataSource.setPassword(repoConfig.getSqlPwd());
         return dataSource;
