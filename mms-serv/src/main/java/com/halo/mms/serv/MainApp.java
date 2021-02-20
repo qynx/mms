@@ -13,14 +13,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-//@ImportResource({"classpath:/dubbo/provider.xml"})
 @PropertySource({"classpath:application.yml"})
 @Import(value = {MmsRepoConfiguration.class})
 @EnableScheduling
 public class MainApp {
 
     public static void main(String[] args) {
-        // System.out.println(System.getProperties().getProperty("user.home"));
         SpringApplication.run(MainApp.class, args);
     }
 

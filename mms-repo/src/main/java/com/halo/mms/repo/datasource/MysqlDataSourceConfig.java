@@ -1,18 +1,11 @@
 package com.halo.mms.repo.datasource;
 
 import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.core.MybatisSqlSessionFactoryBuilder;
-import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.halo.mms.common.config.RepoConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import io.ebean.EbeanServer;
-import io.ebean.EbeanServerFactory;
-import io.ebean.config.ServerConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -20,9 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.util.PathMatcher;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.io.IOException;
 
@@ -39,15 +30,6 @@ public class MysqlDataSourceConfig {
         dataSource.setUsername(repoConfig.getSqlUserName());
         dataSource.setPassword(repoConfig.getSqlPwd());
         return dataSource;
-    }
-
-    //@Bean
-    public EbeanServer ebeanServer(DataSource mysqlDataSource) {
-        ServerConfig serverConfig = new ServerConfig();
-        serverConfig.setName("db");
-        serverConfig.setDefaultServer(true);
-        serverConfig.setDataSource(mysqlDataSource);
-        return EbeanServerFactory.create(serverConfig);
     }
 
     @Bean

@@ -4,13 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.halo.mms.repo.model.UserContactInfoDO;
 import com.halo.mms.repo.mybatis.mapper.UserContractInfoMapper;
-import io.ebean.EbeanServer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Optional;
 
 @Repository

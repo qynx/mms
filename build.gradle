@@ -10,7 +10,6 @@ buildscript {
 
 plugins {
     id 'java'
-    id('io.ebean') version '11.39.1'
 }
 
 java {
@@ -30,7 +29,6 @@ ext {
     wxPusherSdkVersion = '2.1.4'
     snakeYamlVersion = '1.25'
     h2Version =  "1.4.196"
-    ebeanVersion = "11.39.1"
     mysqlVersion = "5.1.47"
     mybatisPlusVersion = '3.4.2'
     rocketMqVersion = '4.8.0'
@@ -85,9 +83,9 @@ subprojects {
     version '1.0.0'
 
     dependencies {
-        implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
         implementation("org.projectlombok:lombok:1.18.10")
         annotationProcessor("org.projectlombok:lombok:1.18.10")
+        implementation "org.springframework.boot:spring-boot-starter:$springBootVersion"
     }
 
     configurations {
@@ -130,8 +128,6 @@ project(":mms-repo") {
         implementation "org.springframework.boot:spring-boot-starter:$springBootVersion"
         implementation "org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion"
         implementation "com.h2database:h2:$h2Version"
-        implementation "io.ebean:ebean:$ebeanVersion"
-        implementation "io.ebean:ebean-querybean:$ebeanVersion"
         implementation "mysql:mysql-connector-java:$mysqlVersion"
         api "com.baomidou:mybatis-plus-boot-starter:$mybatisPlusVersion"
     }
@@ -148,11 +144,9 @@ project(":mms-serv") {
         implementation "org.springframework.boot:spring-boot-starter-freemarker:$springBootVersion"
         implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
         implementation "com.alibaba:dubbo:$dubboVersion"
-        //implementation "org.apache.zookeeper:zookeeper:$zookeeperVersion"
         implementation "org.apache.curator:curator-framework:$curatorVersion"
         implementation "com.zjiecode:wxpusher-java-sdk:$wxPusherSdkVersion"
 
-        implementation "io.ebean:ebean:$ebeanVersion"
         implementation "org.apache.rocketmq:rocketmq-client:$rocketMqVersion"
         implementation "org.apache.kafka:kafka-clients:$kafkaVersion"
     }
