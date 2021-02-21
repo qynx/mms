@@ -3,6 +3,7 @@ package com.halo.mms.serv.controller;
 import com.halo.mms.out.result.BaseResult;
 import com.halo.mms.serv.core.SelContextHolder;
 import com.halo.mms.serv.request.UserAuthRequest;
+import com.halo.mms.serv.result.UserInfo;
 import com.halo.mms.serv.service.api.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,7 @@ public class UserInfoController {
 
     @GetMapping("/user")
     @ResponseBody
-    public Object getUser() {
+    public Object user() {
         Map<String, String> r = new HashMap<>();
         r.put("uuid", SelContextHolder.getContext().getUserInfo().getUuid());
         return BaseResult.getSucc(r);
@@ -42,5 +43,13 @@ public class UserInfoController {
     @ResponseBody
     public Object authUser(@RequestBody UserAuthRequest userAuthRequest) {
         return userInfoService.authUser(userAuthRequest);
+    }
+
+    @PostMapping("/user/get")
+    @ResponseBody
+    public Object getUser() {
+        return
+            BaseResult.getSucc(
+            new UserInfo(userInfoService.queryUser(SelContextHolder.getContext().getUserInfo().getUuid())));
     }
 }

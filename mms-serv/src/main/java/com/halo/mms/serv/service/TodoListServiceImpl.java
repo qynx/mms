@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.halo.mms.repo.model.ToDoListDO;
 import com.halo.mms.repo.mybatis.mapper.ToDoListMapper;
+import com.halo.mms.serv.exception.BadRequestException;
 import com.halo.mms.serv.request.TodoListQuery;
 import com.halo.mms.serv.service.api.TodoListService;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +14,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TodoListServiceImpl extends AbstractCrudServiceImpl<ToDoListMapper, ToDoListDO> implements TodoListService {
+
+    protected void prepare(ToDoListDO curr) {
+        if (StringUtils.isEmpty(curr.getContent()) || StringUtils.isEmpty(curr.getTitle())) {
+            throw new BadRequestException(400, "内容不可以为空");
+        }
+    }
 
     @Override
     public Page<ToDoListDO> list(TodoListQuery todoListQuery) {
