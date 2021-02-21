@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Setter
 public class BaseResult<DATA> implements Serializable {
 
-    private static final int SUCC_CODE = 0;
+    private static final int SUCC_CODE = 200;
 
     private Integer code;
     private String msg;
