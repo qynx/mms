@@ -34,6 +34,7 @@ public class AuthFilter extends OncePerRequestFilter {
         "/api/mms/api/user/auth",
         "/api/mms/health",
         "/api/mms/test",
+        "/api/mms/data",
         "/favicon.ico"
     );
 
@@ -43,27 +44,8 @@ public class AuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("{}", request.getRequestURI());
-        for (String url : NO_AUTH_URL) {
-            if (request.getRequestURI().startsWith(url)) {
-                filterChain.doFilter(request, response);
-                return;
-            }
-        }
-
-        String token = request.getHeader("mms-auth-token");
-
-        Gakki.expectTrue(StringUtils.isNotEmpty(token), new BadRequestException(400, "缺失token"));
-
-        UserContactInfoDO userContactInfoDO = userAuthService.getUidByToken(token);
-        Assert.notNull(userContactInfoDO, "invalid token");
-
-        SelContextHolder.getContext().setUserInfo(userContactInfoDO);
-
-        String body = IoUtil.read(request.getInputStream(), Charset.defaultCharset());
-        Map<String, Object> map = JsonUtil.fromJson(body, new TypeReference<Map<String, Object>>() {});
-        map.put("uid", userContactInfoDO.getUuid());
-        body = JsonUtil.toJson(map);
-        MmsServletRequestWrapper mmsServletRequestWrapper = new MmsServletRequestWrapper(request, body);
+        boolean needAuth = needAuth(request.getRequestURI());
+        MmsServletRequestWrapper mmsServletRequestWrapper = putToken(request, !needAuth);
 
         try {
             filterChain.doFilter(mmsServletRequestWrapper, response);
@@ -73,5 +55,35 @@ public class AuthFilter extends OncePerRequestFilter {
         } finally {
             SelContextHolder.clearContext();
         }
+    }
+
+    private boolean needAuth(String uri) {
+        for (String url : NO_AUTH_URL) {
+            if (uri.startsWith(url)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private MmsServletRequestWrapper putToken(HttpServletRequest request, boolean isSoft) throws IOException {
+        String token = request.getHeader("mms-auth-token");
+        String body = IoUtil.read(request.getInputStream(), Charset.defaultCharset());
+
+        if (isSoft && StringUtils.isEmpty(token)) {
+            return new MmsServletRequestWrapper(request, body);
+        }
+        Gakki.expectTrue(StringUtils.isNotEmpty(token), new BadRequestException(400, "缺失token"));
+
+        UserContactInfoDO userContactInfoDO = userAuthService.getUidByToken(token);
+        Assert.notNull(userContactInfoDO, "invalid token");
+
+        SelContextHolder.getContext().setUserInfo(userContactInfoDO);
+
+        Map<String, Object> map = JsonUtil.fromJson(body, new TypeReference<Map<String, Object>>() {});
+        map.put("uid", userContactInfoDO.getUuid());
+        body = JsonUtil.toJson(map);
+        MmsServletRequestWrapper mmsServletRequestWrapper = new MmsServletRequestWrapper(request, body);
+        return mmsServletRequestWrapper;
     }
 }

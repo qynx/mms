@@ -23,5 +23,4 @@ public class CommonController {
     public Object heart() {
         return "1";
     }
-
 }
