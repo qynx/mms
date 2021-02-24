@@ -16,7 +16,6 @@ public class TodoListNotifyTask {
 
     @Scheduled(fixedDelay = 5 * 1000, initialDelay = 0L)
     public void doScan() {
-        log.info("notify-task schedule");
         todoListNotifyService.scanToNotify();
     }
 }

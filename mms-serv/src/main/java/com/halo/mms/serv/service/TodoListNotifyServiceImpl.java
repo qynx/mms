@@ -2,12 +2,11 @@ package com.halo.mms.serv.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.davidmarquis.redisq.producer.DefaultMessageProducer;
 import com.halo.mms.common.domain.WxSendMsg;
 import com.halo.mms.common.utils.EnvUtil;
 import com.halo.mms.repo.model.ToDoListDO;
 import com.halo.mms.repo.mybatis.mapper.ToDoListMapper;
-import com.halo.mms.serv.mq.KafkaMqProducer;
 import com.halo.mms.serv.service.api.TodoListNotifyService;
 import com.halo.mms.serv.store.RocksAction;
 import com.halo.mms.serv.util.JsonUtil;
@@ -30,8 +29,9 @@ public class TodoListNotifyServiceImpl implements TodoListNotifyService {
 
     @Resource
     private ToDoListMapper toDoListMapper;
+
     @Resource
-    private KafkaMqProducer wxPusherProducer;
+    private DefaultMessageProducer<String> wxPushProducer;
 
     @Override
     public void scanToNotify() {
@@ -68,7 +68,7 @@ public class TodoListNotifyServiceImpl implements TodoListNotifyService {
             toDoListMapper.updateById(updates);
 
             WxSendMsg wxSendMsg = new WxSendMsg().setTitle(domain.getTitle()).setContent(domain.getContent()).setUid(domain.getUid());
-            wxPusherProducer.sendMsg(JsonUtil.toJson(wxSendMsg));
+            wxPushProducer.submit(JsonUtil.toJson(wxSendMsg));
         }
     }
 

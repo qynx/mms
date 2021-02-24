@@ -35,6 +35,7 @@ public class AuthFilter extends OncePerRequestFilter {
         "/api/mms/health",
         "/api/mms/test",
         "/api/mms/data",
+        "/test",
         "/favicon.ico"
     );
 

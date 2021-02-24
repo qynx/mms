@@ -1,5 +1,12 @@
 package com.halo.mms.serv.mq;
 
+import com.github.davidmarquis.redisq.Message;
+import com.github.davidmarquis.redisq.RedisMessageQueue;
+import com.github.davidmarquis.redisq.consumer.MessageConsumer;
+import com.github.davidmarquis.redisq.consumer.MessageListener;
+import com.github.davidmarquis.redisq.consumer.retry.RetryableMessageException;
+import com.github.davidmarquis.redisq.serialization.PayloadSerializer;
+import com.github.davidmarquis.redisq.serialization.StringPayloadSerializer;
 import com.halo.mms.common.config.KafkaConfig;
 import com.halo.mms.common.config.RepoConfig;
 import com.halo.mms.common.domain.WxSendMsg;
@@ -12,6 +19,7 @@ import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import java.util.Optional;
@@ -26,50 +34,36 @@ public class MqConfig {
     private WxPushService wxPushService;
     @Resource
     private UserInfoService userInfoService;
-
-    private DefaultMQProducer testProducer;
+    @Resource
+    private RedisMessageQueue wxPushQueue;
 
     @Bean
-    public DefaultMQProducer testProducer() throws Exception {
-        DefaultMQProducer defaultMQProducer = new DefaultMQProducer("test");
-        System.out.println(repoConfig.getRocketMqAddr());
-        defaultMQProducer.setNamesrvAddr(repoConfig.getRocketMqAddr());
-        this.testProducer = defaultMQProducer;
-        this.testProducer.start();
-        return defaultMQProducer;
+    public PayloadSerializer payloadSerializer() {
+        return new StringPayloadSerializer();
     }
 
     @Bean
-    public KafkaMqProducer wxPusherProducer() {
-        KafkaConfig kafkaConfig = new KafkaConfig();
-        kafkaConfig.setTopic("mms-wx_pusher");
-        return new KafkaMqProducer(kafkaConfig);
+    public MessageConsumer<String> wxPushConsumer() {
+        MessageConsumer<String> messageConsumer = new MessageConsumer<>();
+        messageConsumer.setQueue(wxPushQueue);
+        messageConsumer.setConsumerId("1");
+        MessageListener<String> messageListener = message -> {
+            log.info("redis_consume: {}", message.getPayload());
+            onWxPushMessage(message.getPayload());
+        };
+        messageConsumer.setMessageListener(messageListener);
+        return messageConsumer;
     }
 
-    @Bean
-    public KafkaMqConsumer wxPusherConsumer() {
-        KafkaConfig kafkaConfig = new KafkaConfig();
-        kafkaConfig.setTopic("mms-wx_pusher");
-        kafkaConfig.setGroup("mms-wx_pusher");
-        KafkaMqConsumer consumer = new KafkaMqConsumer(kafkaConfig);
-
-        consumer.start(records -> {
-            for (ConsumerRecord<String, String> record: records) {
-                log.info("kafka_consume: {}", record.value());
-                WxSendMsg wxSendMsg = JsonUtil.fromJson(record.value(), WxSendMsg.class);
-
-                String wxPusherId = Optional.ofNullable(wxSendMsg.getWxPusherId())
-                .orElse(userInfoService.queryUser(wxSendMsg.getUid()).getWxPusherUid());
-                wxPushService.push(wxSendMsg.getTitle(), wxSendMsg.getContent(), wxPusherId);
-            }
-        });
-
-        return consumer;
+    private void onWxPushMessage(String msg) {
+        WxSendMsg wxSendMsg = JsonUtil.fromJson(msg, WxSendMsg.class);
+        String wxPusherId = Optional.ofNullable(wxSendMsg.getWxPusherId())
+            .orElse(userInfoService.queryUser(wxSendMsg.getUid()).getWxPusherUid());
+        wxPushService.push(wxSendMsg.getTitle(), wxSendMsg.getContent(), wxPusherId);
     }
 
     @PreDestroy
     public void destroy() {
         //this.testProducer.shutdown();
-
     }
 }

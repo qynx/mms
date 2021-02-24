@@ -35,6 +35,9 @@ ext {
     hutoolVersion = '5.5.7'
     rocksDbVersion = '5.9.2'
     kafkaVersion = '2.7.0'
+    vertxVersion = '4.0.2'
+    redisQVersion = "2.0.0"
+    jedisVersion = "3.0.1"
 }
 
 dependencies {
@@ -127,8 +130,10 @@ project(":mms-repo") {
 
         implementation "org.springframework.boot:spring-boot-starter:$springBootVersion"
         implementation "org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion"
+        compile "org.springframework.boot:spring-boot-starter-data-redis:$springBootVersion"
         implementation "com.h2database:h2:$h2Version"
         implementation "mysql:mysql-connector-java:$mysqlVersion"
+        implementation "redis.clients:jedis:$jedisVersion"
         api "com.baomidou:mybatis-plus-boot-starter:$mybatisPlusVersion"
     }
 }
@@ -149,5 +154,7 @@ project(":mms-serv") {
 
         implementation "org.apache.rocketmq:rocketmq-client:$rocketMqVersion"
         implementation "org.apache.kafka:kafka-clients:$kafkaVersion"
+        implementation "io.vertx:vertx-web-client:$vertxVersion"
+        implementation "com.github.davidmarquis:redisq:$redisQVersion"
     }
 }

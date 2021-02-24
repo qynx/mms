@@ -12,7 +12,8 @@ public class SayingServiceImpl implements SayingService {
     private static final List<String> SAYINGS = Arrays.asList(
         "什么都无法舍弃的人什么都得不到",
         "上善若水",
-        "陆舟"
+        "陆舟",
+        "什么时候困难没有了 机会也就没有了"
     );
 
     @Override
