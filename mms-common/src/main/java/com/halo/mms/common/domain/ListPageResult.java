@@ -10,7 +10,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class ListPageResult implements Serializable {
 
-    private List<String> newListPageUrl;
+    private List<ListPageDTO> newListPageUrl;
 
     private List<ChapterDTO> chapters;
 }

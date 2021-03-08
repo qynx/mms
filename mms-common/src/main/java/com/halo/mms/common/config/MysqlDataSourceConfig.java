@@ -1,4 +1,4 @@
-package com.halo.mms.repo.datasource;
+package com.halo.mms.common.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -35,7 +35,7 @@ public class MysqlDataSourceConfig {
     @Bean
     public MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-        mapperScannerConfigurer.setBasePackage("com.halo.mms.repo.mybatis.mapper");
+        mapperScannerConfigurer.setBasePackage("com.halo.mms.common.plus.mapper");
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("mybatisSqlSessionFactoryBean");
         return mapperScannerConfigurer;
     }

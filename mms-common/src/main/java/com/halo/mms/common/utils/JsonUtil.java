@@ -1,4 +1,4 @@
-package com.halo.mms.serv.util;
+package com.halo.mms.common.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;

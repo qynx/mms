@@ -1,4 +1,4 @@
-package com.halo.mms.repo.model;
+package com.halo.mms.common.plus.model;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;

@@ -10,8 +10,10 @@ import java.io.Serializable;
 public class ChapterDTO implements Serializable {
 
     private String url;
-    private String host;
     private Integer chapterIndex;
+    private String title;
 
     private String content;
+
+    private ListPageDTO pageInfo;
 }

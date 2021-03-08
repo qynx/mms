@@ -1,12 +1,12 @@
 package com.halo.mms.serv.service;
 
-import com.halo.mms.repo.model.UserContactInfoDO;
+import com.halo.mms.common.plus.model.UserContactInfoDO;
 import com.halo.mms.serv.exception.LoginInvalidException;
 import com.halo.mms.serv.service.api.UserAuthService;
 import com.halo.mms.serv.store.AbstractCache;
 import com.halo.mms.serv.store.CacheFactory;
 import com.halo.mms.serv.store.StoreData;
-import com.halo.mms.serv.util.JsonUtil;
+import com.halo.mms.common.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.halo.mms.repo.mybatis.mapper;
+package com.halo.mms.common.plus.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 

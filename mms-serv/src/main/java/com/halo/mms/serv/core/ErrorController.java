@@ -2,7 +2,7 @@ package com.halo.mms.serv.core;
 
 import com.halo.mms.out.result.BaseResult;
 import com.halo.mms.serv.exception.AbstractMmsException;
-import com.halo.mms.serv.util.JsonUtil;
+import com.halo.mms.common.utils.JsonUtil;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;

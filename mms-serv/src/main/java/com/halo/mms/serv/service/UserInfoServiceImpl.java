@@ -2,7 +2,7 @@ package com.halo.mms.serv.service;
 
 import cn.hutool.crypto.digest.DigestUtil;
 import com.halo.mms.out.result.BaseResult;
-import com.halo.mms.repo.model.UserContactInfoDO;
+import com.halo.mms.common.plus.model.UserContactInfoDO;
 import com.halo.mms.repo.repository.UserContactInfoRepository;
 import com.halo.mms.serv.configs.PushConfig;
 import com.halo.mms.serv.exception.BadRequestException;

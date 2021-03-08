@@ -1,4 +1,4 @@
-package com.halo.mms.serv;
+package com.halo.mms.serv.configs;
 
 import com.github.davidmarquis.redisq.RedisMessageQueue;
 import com.github.davidmarquis.redisq.persistence.RedisOps;
@@ -9,10 +9,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class QueueConfig {
 
-    @Bean
-    public RedisOps redisOps() {
-        return new RedisOps();
-    }
 
     @Bean
     public RedisMessageQueue wxPushQueue() {

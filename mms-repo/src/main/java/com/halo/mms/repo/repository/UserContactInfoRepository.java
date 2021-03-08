@@ -2,8 +2,8 @@ package com.halo.mms.repo.repository;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.halo.mms.repo.model.UserContactInfoDO;
-import com.halo.mms.repo.mybatis.mapper.UserContractInfoMapper;
+import com.halo.mms.common.plus.model.UserContactInfoDO;
+import com.halo.mms.common.plus.mapper.UserContractInfoMapper;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 

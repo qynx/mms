@@ -2,10 +2,9 @@ package com.halo.mms.serv.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.halo.mms.repo.model.ToDoListDO;
-import com.halo.mms.repo.mybatis.mapper.ToDoListMapper;
+import com.halo.mms.common.plus.model.ToDoListDO;
+import com.halo.mms.common.plus.mapper.ToDoListMapper;
 import com.halo.mms.serv.exception.BadRequestException;
 import com.halo.mms.serv.request.TodoListQuery;
 import com.halo.mms.serv.service.api.TodoListService;

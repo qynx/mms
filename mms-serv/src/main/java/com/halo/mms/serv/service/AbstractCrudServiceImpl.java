@@ -2,7 +2,7 @@ package com.halo.mms.serv.service;
 
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.halo.mms.repo.mybatis.mapper.MmsBaseMapper;
+import com.halo.mms.common.plus.mapper.MmsBaseMapper;
 import com.halo.mms.serv.exception.BadRequestException;
 import com.halo.mms.serv.service.api.AbstractCrudService;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,6 @@ import java.io.Serializable;
 public abstract class AbstractCrudServiceImpl<M extends MmsBaseMapper<T>, T> extends ServiceImpl<M, T> implements AbstractCrudService<T> {
 
     protected void prepare(T curr) {
-
     }
 
     protected void effect(T curr, T newDomain) {

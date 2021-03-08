@@ -1,9 +1,9 @@
-package com.halo.mms.serv.mq;
+package com.halo.mms.common.mq;
 
 import com.github.davidmarquis.redisq.consumer.MessageConsumer;
 import com.github.davidmarquis.redisq.consumer.MessageListener;
+import com.halo.mms.common.mq.RedisMqQueue;
 
-import javax.annotation.PostConstruct;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RedisMqConsumer extends MessageConsumer<String> {

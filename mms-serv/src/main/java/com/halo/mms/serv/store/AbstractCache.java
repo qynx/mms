@@ -1,7 +1,7 @@
 package com.halo.mms.serv.store;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.halo.mms.serv.util.JsonUtil;
+import com.halo.mms.common.utils.JsonUtil;
 import org.springframework.util.Assert;
 
 import java.util.Optional;

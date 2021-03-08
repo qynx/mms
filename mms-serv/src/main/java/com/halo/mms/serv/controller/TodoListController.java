@@ -1,7 +1,7 @@
 package com.halo.mms.serv.controller;
 
 import com.halo.mms.out.result.BaseResult;
-import com.halo.mms.repo.model.ToDoListDO;
+import com.halo.mms.common.plus.model.ToDoListDO;
 import com.halo.mms.serv.request.TodoListQuery;
 import com.halo.mms.serv.service.api.TodoListService;
 import org.springframework.web.bind.annotation.RequestBody;

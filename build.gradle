@@ -23,21 +23,35 @@ sourceCompatibility = 1.8
 
 ext {
     springBootVersion = '2.2.6.RELEASE'
-    dubboVersion = '2.6.2'
-    zookeeperVersion = '3.5.5'
-    curatorVersion = '4.2.0'
-    wxPusherSdkVersion = '2.1.4'
-    snakeYamlVersion = '1.25'
-    h2Version =  "1.4.196"
-    mysqlVersion = "5.1.47"
+
+    // 存储中间件
     mybatisPlusVersion = '3.4.2'
-    rocketMqVersion = '4.8.0'
-    hutoolVersion = '5.5.7'
-    rocksDbVersion = '5.9.2'
-    kafkaVersion = '2.7.0'
-    vertxVersion = '4.0.2'
-    redisQVersion = "2.0.0"
+    h2Version =  "1.4.196"
+    rocksDbVersion = "5.9.2"
+    mysqlVersion = "5.1.47"
     jedisVersion = "3.0.1"
+
+    // mq
+    rocketMqVersion = "4.8.0"
+    redisQVersion = "2.0.0"
+    kafkaVersion = "2.7.0"
+
+    // rpc
+    curatorVersion = "4.2.0"
+    zookeeperVersion = "3.5.5"
+    dubboVersion = "2.6.2"
+
+    // sdk
+    wxPusherSdkVersion = "2.1.4"
+
+    // common
+    snakeYamlVersion = '1.25'
+    jsoupVersion = "1.12.1"
+    commonsLang3Version = "3.11"
+    hutoolVersion = "5.5.7"
+    jacksonVersion = "2.10.3"
+    vertxVersion = "4.0.2"
+    vavrVersion = "0.10.3"
 }
 
 dependencies {
@@ -73,8 +87,9 @@ allprojects {
         }
     }
 
-    configurations {
-
+    configurations.all {
+        exclude group: "ch.qos.logback", module: "logback-classic"
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
 }
 
@@ -89,6 +104,7 @@ subprojects {
         implementation("org.projectlombok:lombok:1.18.10")
         annotationProcessor("org.projectlombok:lombok:1.18.10")
         implementation "org.springframework.boot:spring-boot-starter:$springBootVersion"
+        api "org.apache.logging.log4j:log4j-slf4j-impl:2.12.1"
     }
 
     configurations {
@@ -118,6 +134,16 @@ project(":mms-common") {
          api "org.yaml:snakeyaml:$snakeYamlVersion"
          api "cn.hutool:hutool-all:$hutoolVersion"
          api "org.rocksdb:rocksdbjni:$rocksDbVersion"
+         api "io.vertx:vertx-web-client:$vertxVersion"
+         api "org.jsoup:jsoup:$jsoupVersion"
+         api "org.springframework.boot:spring-boot-starter-log4j2:$springBootVersion"
+         api "org.apache.commons:commons-lang3:$commonsLang3Version"
+         api "com.github.davidmarquis:redisq:$redisQVersion"
+         api "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+         api "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+         api "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
+         api "io.vavr:vavr:$vavrVersion"
+         api "com.baomidou:mybatis-plus-boot-starter:$mybatisPlusVersion"
      }
 }
 
@@ -134,7 +160,6 @@ project(":mms-repo") {
         implementation "com.h2database:h2:$h2Version"
         implementation "mysql:mysql-connector-java:$mysqlVersion"
         implementation "redis.clients:jedis:$jedisVersion"
-        api "com.baomidou:mybatis-plus-boot-starter:$mybatisPlusVersion"
     }
 }
 
@@ -147,7 +172,9 @@ project(":mms-serv") {
         api project(":mms-repo")
 
         implementation "org.springframework.boot:spring-boot-starter-freemarker:$springBootVersion"
-        implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+        compile ("org.springframework.boot:spring-boot-starter-web:$springBootVersion") {
+            exclude group: "org.springframework.boot", module: "spring-boot-start-logging"
+        }
         implementation "com.alibaba:dubbo:$dubboVersion"
         implementation "org.apache.curator:curator-framework:$curatorVersion"
         implementation "com.zjiecode:wxpusher-java-sdk:$wxPusherSdkVersion"
@@ -155,6 +182,6 @@ project(":mms-serv") {
         implementation "org.apache.rocketmq:rocketmq-client:$rocketMqVersion"
         implementation "org.apache.kafka:kafka-clients:$kafkaVersion"
         implementation "io.vertx:vertx-web-client:$vertxVersion"
-        implementation "com.github.davidmarquis:redisq:$redisQVersion"
+        api "org.apache.logging.log4j:log4j-slf4j-impl:2.12.1"
     }
 }

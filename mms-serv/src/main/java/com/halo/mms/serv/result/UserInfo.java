@@ -1,6 +1,6 @@
 package com.halo.mms.serv.result;
 
-import com.halo.mms.repo.model.UserContactInfoDO;
+import com.halo.mms.common.plus.model.UserContactInfoDO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

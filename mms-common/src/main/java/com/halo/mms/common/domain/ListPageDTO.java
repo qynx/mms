@@ -9,6 +9,8 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class ListPageDTO implements Serializable {
 
+    private Long bookId;
+
     private String host;
 
     private Integer index;

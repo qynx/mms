@@ -1,25 +1,18 @@
 package com.halo.mms.serv.mq;
 
-import com.github.davidmarquis.redisq.Message;
 import com.github.davidmarquis.redisq.RedisMessageQueue;
 import com.github.davidmarquis.redisq.consumer.MessageConsumer;
 import com.github.davidmarquis.redisq.consumer.MessageListener;
-import com.github.davidmarquis.redisq.consumer.retry.RetryableMessageException;
 import com.github.davidmarquis.redisq.serialization.PayloadSerializer;
 import com.github.davidmarquis.redisq.serialization.StringPayloadSerializer;
-import com.halo.mms.common.config.KafkaConfig;
-import com.halo.mms.common.config.RepoConfig;
 import com.halo.mms.common.domain.WxSendMsg;
 import com.halo.mms.out.WxPushService;
 import com.halo.mms.serv.service.api.UserInfoService;
-import com.halo.mms.serv.util.JsonUtil;
+import com.halo.mms.common.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import java.util.Optional;
@@ -28,8 +21,6 @@ import java.util.Optional;
 @Configuration
 public class MqConfig {
 
-    @Resource
-    private RepoConfig repoConfig;
     @Resource
     private WxPushService wxPushService;
     @Resource

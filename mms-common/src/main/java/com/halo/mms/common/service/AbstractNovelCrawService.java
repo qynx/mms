@@ -1,14 +1,13 @@
 package com.halo.mms.common.service;
 
-import com.halo.mms.common.domain.ChapterDTO;
+import com.halo.mms.common.domain.ListPageResult;
 
-import java.util.List;
-
+/**
+ * 实现类 需要无状态 或 自行确保线程安全性
+ */
 public abstract class AbstractNovelCrawService {
 
+    public abstract String parseChapterContent(String contentPageHtml);
 
-
-    abstract void parseChapterContent(String contentPageHtml);
-
-    abstract List<ChapterDTO> parseChapterUrl(String listPageHtml);
+    public abstract ListPageResult parsePageUrl(String listPageHtml);
 }

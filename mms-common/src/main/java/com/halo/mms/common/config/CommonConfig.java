@@ -1,4 +1,4 @@
-package com.halo.mms.serv.configs;
+package com.halo.mms.common.config;
 
 import com.github.davidmarquis.redisq.persistence.RedisOps;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 @Configuration
 public class CommonConfig {
 
-    private static ApplicationContext staticContext;
+    public static ApplicationContext staticContext;
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -21,5 +21,6 @@ public class CommonConfig {
     }
 
     public static RedisOps redisOps;
+
 
 }

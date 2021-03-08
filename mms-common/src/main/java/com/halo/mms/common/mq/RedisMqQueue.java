@@ -1,7 +1,8 @@
-package com.halo.mms.serv.mq;
+package com.halo.mms.common.mq;
 
 import com.github.davidmarquis.redisq.RedisMessageQueue;
-import com.halo.mms.serv.configs.CommonConfig;
+import com.halo.mms.common.config.CommonConfig;
+import com.halo.mms.common.config.CommonMqConfig;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class RedisMqQueue extends RedisMessageQueue {
 
         RedisMqQueue redisMqQueue = new RedisMqQueue();
         redisMqQueue.setQueueName(name);
-        redisMqQueue.setRedisOps(CommonConfig.redisOps);
+        redisMqQueue.setRedisOps(CommonMqConfig.redisOps);
         redisMqQueue.initialize();
         BEANS.put(name, redisMqQueue);
         return redisMqQueue;
